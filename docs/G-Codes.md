@@ -258,8 +258,9 @@ sections are enabled:
 
 The following commands are available when a "servo" config section is
 enabled:
-- `SET_SERVO SERVO=config_name [WIDTH=<seconds>] [ENABLE=<0|1>]`
-- `SET_SERVO SERVO=config_name [ANGLE=<degrees>] [ENABLE=<0|1>]`
+- `SET_SERVO SERVO=config_name [ANGLE=<degrees> | WIDTH=<seconds>]`:
+  Set the servo position to the given angle (in degrees) or pulse
+  width (in seconds). Use `WIDTH=0` to disable the servo output.
 
 ## Manual stepper Commands
 
@@ -611,3 +612,12 @@ been enabled:
     of SHAPER_TYPE_X and SHAPER_TYPE_Y parameters. See
     [example-extras.cfg](https://github.com/KevinOConnor/klipper/tree/master/config/example-extras.cfg)
     for more details on each of these parameters.
+
+## Temperature Fan Commands
+
+The following command is available when a "temperature_fan" config
+section is enabled:
+- `SET_TEMPERATURE_FAN_TARGET temperature_fan=<temperature_fan_name>
+  [target=<target_temperature>]`: Sets the target temperature for a
+  temperature_fan. If a target is not supplied, it is set to the
+  specified temperature in the config file.
