@@ -124,6 +124,8 @@ class MoveQueue:
         update_flush_count = lazy
         queue = self.queue
         flush_count = len(queue)
+        logging.info("flushing queue (%d moves)..", flush_count)
+        curtime = self.toolhead.reactor.monotonic()
         # Traverse queue from last to first move and determine maximum
         # junction speed assuming the robot comes to a complete stop
         # after the last move.
@@ -165,12 +167,19 @@ class MoveQueue:
                 delayed.append((move, start_v2, next_end_v2))
             next_end_v2 = start_v2
             next_smoothed_v2 = smoothed_v2
+        flushtime = self.toolhead.reactor.monotonic()
         if update_flush_count or not flush_count:
+            logging.info("queue not flushed (took %.9f sec)", flushtime - curtime)
             return
+        logging.info("process moves (%d moves, flush took %.9f sec).."
+                , flush_count, flushtime - curtime)
         # Generate step times for all moves ready to be flushed
         self.toolhead._process_moves(queue[:flush_count])
+        processtime = self.toolhead.reactor.monotonic()
         # Remove processed moves from the queue
         del queue[:flush_count]
+        logging.info("queue flushed (process moves took %.9f sec)"
+                , processtime - flushtime)
     def add_move(self, move):
         self.queue.append(move)
         if len(self.queue) == 1:
