@@ -60,6 +60,11 @@ Klipper also supports the following standard G-Code commands if the
 - Set SD position: `M26 S<offset>`
 - Report SD print status: `M27`
 
+In addition, the following extended commands are availble when the
+"virtual_sdcard" config section is enabled.
+- Load a file and start SD print: `SDCARD_PRINT_FILE FILENAME=<filename>`
+- Unload file and clear SD state:  `SDCARD_RESET_FILE`
+
 ## G-Code arcs
 
 The following standard G-Code commands are available if a "gcode_arcs"
@@ -238,6 +243,13 @@ is enabled:
 The following command is available when an "output_pin" config section
 is enabled:
 - `SET_PIN PIN=config_name VALUE=<value>`
+
+## Manually Controlled Fans Commands
+
+The following command is available when a "fan_generic" config section
+is enabled:
+- `SET_FAN_SPEED FAN=config_name SPEED=<speed>` This command sets
+  the speed of a fan. <speed> must be between 0.0 and 1.0.
 
 ## Neopixel and Dotstar Commands
 
